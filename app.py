@@ -31,9 +31,43 @@ st.caption("TUGAS KELOMPOK 2 - OPTIMASI DAN IMPLEMENTASI DALAM APLIKASI SEDERHAN
 st.info("Aplikasi ini digunakan untuk klasifikasi gambar menggunakan model CNN.")
 
 # ===============================
+# INFORMASI INPUT GAMBAR
+# ===============================
+st.subheader("Upload Gambar")
+
+st.write("Gunakan gambar yang termasuk ke dalam salah satu kelas berikut:")
+
+class_info = pd.DataFrame({
+    "No": list(range(1, 11)),
+    "Class": [
+        "airplane", "automobile", "bird", "cat", "deer",
+        "dog", "frog", "horse", "ship", "truck"
+    ],
+    "Keterangan": [
+        "Pesawat",
+        "Mobil",
+        "Burung",
+        "Kucing",
+        "Rusa",
+        "Anjing",
+        "Katak",
+        "Kuda",
+        "Kapal",
+        "Truk"
+    ]
+})
+
+st.dataframe(class_info, use_container_width=True)
+
+st.warning("Upload gambar di luar kategori tersebut dapat menghasilkan prediksi yang tidak akurat.")
+
+# ===============================
 # UPLOAD GAMBAR
 # ===============================
-uploaded_file = st.file_uploader("Upload gambar", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader(
+    "Upload gambar sesuai kategori model",
+    type=["jpg", "jpeg", "png"]
+)
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file).convert("RGB")
