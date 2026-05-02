@@ -1,30 +1,24 @@
+# ===============================
+# IMPORT LIBRARY
+# ===============================
 import streamlit as st
-import numpy as np
+import requests
 from PIL import Image
-import tensorflow as tf
+import urllib3
 import pandas as pd
 
-# ===============================
-# LOAD MODEL
-# ===============================
-@st.cache_resource
-def load_model():
-    return tf.keras.models.load_model("model.keras")
-
-model = load_model()
+# Disable SSL warning (ngrok)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # ===============================
-# CLASS NAME
+# CONFIG API
 # ===============================
-class_names = [
-    "airplane", "automobile", "bird", "cat", "deer",
-    "dog", "frog", "horse", "ship", "truck"
-]
+API_URL = "https://excluding-decaf-bruising.ngrok-free.dev/predict"
 
 # ===============================
 # UI HEADER
 # ===============================
-st.title("Image Classification App CNN")
+st.title("Image Classification App (CNN via API)")
 
 st.caption("Tugas Kelompok 2 - OPTIMASI DAN IMPLEMENTASI DALAM APLIKASI SEDERHANA")
 
@@ -33,28 +27,31 @@ st.info("Group 2: INDRA KOESUMAH | INDHAH PUJIHASTUTI | ALVIYAN SYAFRIANSAH MATO
 # ===============================
 # UPLOAD GAMBAR
 # ===============================
-uploaded_file = st.file_uploader("Upload gambar", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("Upload gambar", type=["jpg", "png"])
 
 if uploaded_file is not None:
-    image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Gambar Input", use_container_width=True)
 
-    # Preprocessing gambar
-    image_resized = image.resize((32, 32))
-    img_array = np.array(image_resized) / 255.0
-    img_array = np.expand_dims(img_array, axis=0)
+    image = Image.open(uploaded_file)
+    st.image(image, caption="Gambar Input")
 
-    # Prediksi
-    prediction = model.predict(img_array)
-    predicted_index = np.argmax(prediction)
-    confidence = np.max(prediction)
+    files = {
+        "file": uploaded_file.getvalue()
+    }
 
-    # ===============================
-    # HASIL PREDIKSI
-    # ===============================
-    st.subheader("Hasil Prediksi")
-    st.write("Kelas:", class_names[predicted_index])
-    st.write("Confidence:", round(confidence * 100, 2), "%")
+    try:
+        response = requests.post(API_URL, files=files, verify=False, timeout=10)
+        response.raise_for_status()
+        result = response.json()
+
+        # ===============================
+        # HASIL PREDIKSI
+        # ===============================
+        st.subheader("Hasil Prediksi")
+        st.write("Kelas:", result["class"])
+        st.write("Confidence:", round(result["confidence"] * 100, 2), "%")
+
+    except requests.exceptions.RequestException as e:
+        st.error(f"Gagal konek ke API: {e}")
 
 # ===============================
 # TABEL PERBANDINGAN MODEL
