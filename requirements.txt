@@ -1,5 +1,4 @@
+tensorflow
 streamlit
-tensorflow-cpu
 pillow
 numpy
-pandas
