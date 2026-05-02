@@ -57,13 +57,29 @@ class_info = pd.DataFrame({
     ]
 })
 
-st.dataframe(class_info, use_container_width=True)
+st.dataframe(
+    class_info,
+    use_container_width=True,
+    hide_index=True,
+    column_config={
+        "No": st.column_config.NumberColumn(
+            "No",
+            width="small",
+            format="%d"
+        ),
+        "Class": st.column_config.TextColumn(
+            "Class",
+            width="medium"
+        ),
+        "Keterangan": st.column_config.TextColumn(
+            "Keterangan",
+            width="medium"
+        )
+    }
+)
 
 st.warning("Upload gambar di luar kategori tersebut dapat menghasilkan prediksi yang tidak akurat.")
 
-# ===============================
-# UPLOAD GAMBAR
-# ===============================
 uploaded_file = st.file_uploader(
     "Upload gambar sesuai kategori model",
     type=["jpg", "jpeg", "png"]
