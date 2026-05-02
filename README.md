@@ -1,4 +1,4 @@
-# Project: Image Classification CNN
+# Project: CNN Image Classification
 
 Cara menjalankan:
 1. Install library:
