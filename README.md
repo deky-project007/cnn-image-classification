@@ -19,7 +19,7 @@ Cara menjalankan:
    python -m streamlit run app.py
 
 3. Buka aplikasi di browser:
-   http://localhost:8501
+   http://localhost:8501 or https://cnn-image-classification-eanrjd8cr5hjcocj77v7vr.streamlit.app
 
 ### Struktur File
 
