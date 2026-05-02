@@ -1,29 +1,13 @@
-# CNN Image Classification Application
+# Project: Image Classification CNN
 
-### Deskripsi Proyek
+Cara menjalankan:
+1. Install library:
+   python -m pip install -r requirements.txt
 
-Proyek ini merupakan aplikasi klasifikasi gambar berbasis Convolutional Neural Network (CNN) yang dikembangkan sebagai bagian dari tugas optimasi dan implementasi model ke dalam aplikasi sederhana.
+2. Jalankan:
+   python -m streamlit run app.py
 
-Aplikasi ini dibuat menggunakan Streamlit sebagai antarmuka web sederhana. Pengguna dapat mengunggah gambar, kemudian sistem akan melakukan prediksi kelas gambar menggunakan model CNN yang telah dilatih sebelumnya.
-
-### Tujuan Proyek
-
-Tujuan dari proyek ini adalah:
-
-1. Mengoptimalkan model CNN untuk meningkatkan performa klasifikasi gambar.
-2. Mengimplementasikan model ke dalam aplikasi web sederhana.
-3. Melakukan pengujian model menggunakan gambar baru yang belum ada di dataset training.
-4. Mendokumentasikan hasil pengujian dan evaluasi akhir model.
-
-### Fitur Aplikasi
-
-- Upload gambar melalui antarmuka web.
-- Menampilkan gambar input yang diunggah.
-- Menampilkan hasil prediksi kelas gambar.
-- Menampilkan nilai confidence dari hasil prediksi.
-- Menampilkan tabel perbandingan performa model.
-- Menampilkan grafik akurasi training dan validasi.
-- Menampilkan analisis hasil optimasi model.
+3. Pastikan API dari Colab aktif (ngrok)
 
 ### Struktur File
 
