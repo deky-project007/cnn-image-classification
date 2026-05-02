@@ -11,15 +11,6 @@ Aplikasi ini direkomendasikan menggunakan:
 - NumPy
 - Pandas
 
-File `requirements.txt` yang digunakan:
-
-```text
-streamlit
-tensorflow-cpu
-pillow
-numpy
-pandas
-
 Cara menjalankan:
 1. Install library:
    python -m pip install -r requirements.txt
