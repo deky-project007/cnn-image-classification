@@ -18,11 +18,11 @@ API_URL = "https://excluding-decaf-bruising.ngrok-free.dev/predict"
 # ===============================
 # UI HEADER
 # ===============================
-st.title("Image Classification App (CNN via API)")
+st.title("CNN Image Classification")
 
-st.caption("Tugas Kelompok 2 - OPTIMASI DAN IMPLEMENTASI DALAM APLIKASI SEDERHANA")
+st.caption("TUGAS KELOMPOK 2 - OPTIMASI DAN IMPLEMENTASI DALAM APLIKASI SEDERHANA")
 
-st.info("Group 2: INDRA KOESUMAH | INDHAH PUJIHASTUTI | ALVIYAN SYAFRIANSAH MATONDANG | INDRI TALITHA | MUHAMAD DEKY AKBAR")
+st.info("GROUP 2: INDRA KOESUMAH | INDHAH PUJIHASTUTI | ALVIYAN SYAFRIANSAH MATONDANG | INDRI TALITHA | MUHAMAD DEKY AKBAR")
 
 # ===============================
 # UPLOAD GAMBAR
