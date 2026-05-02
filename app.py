@@ -1,24 +1,30 @@
-# ===============================
-# IMPORT LIBRARY
-# ===============================
 import streamlit as st
-import requests
+import numpy as np
 from PIL import Image
-import urllib3
+import tensorflow as tf
 import pandas as pd
 
-# Disable SSL warning (ngrok)
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+# ===============================
+# LOAD MODEL
+# ===============================
+@st.cache_resource
+def load_model():
+    return tf.keras.models.load_model("model.keras")
+
+model = load_model()
 
 # ===============================
-# CONFIG API
+# CLASS NAME
 # ===============================
-API_URL = "https://excluding-decaf-bruising.ngrok-free.dev/predict"
+class_names = [
+    "airplane", "automobile", "bird", "cat", "deer",
+    "dog", "frog", "horse", "ship", "truck"
+]
 
 # ===============================
 # UI HEADER
 # ===============================
-st.title("Image Classification App (CNN via API)")
+st.title("Image Classification App CNN")
 
 st.caption("Tugas Kelompok 2 - OPTIMASI DAN IMPLEMENTASI DALAM APLIKASI SEDERHANA")
 
@@ -27,31 +33,28 @@ st.info("Group 2: INDRA KOESUMAH | INDHAH PUJIHASTUTI | ALVIYAN SYAFRIANSAH MATO
 # ===============================
 # UPLOAD GAMBAR
 # ===============================
-uploaded_file = st.file_uploader("Upload gambar", type=["jpg", "png"])
+uploaded_file = st.file_uploader("Upload gambar", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
+    image = Image.open(uploaded_file).convert("RGB")
+    st.image(image, caption="Gambar Input", use_container_width=True)
 
-    image = Image.open(uploaded_file)
-    st.image(image, caption="Gambar Input")
+    # Preprocessing gambar
+    image_resized = image.resize((32, 32))
+    img_array = np.array(image_resized) / 255.0
+    img_array = np.expand_dims(img_array, axis=0)
 
-    files = {
-        "file": uploaded_file.getvalue()
-    }
+    # Prediksi
+    prediction = model.predict(img_array)
+    predicted_index = np.argmax(prediction)
+    confidence = np.max(prediction)
 
-    try:
-        response = requests.post(API_URL, files=files, verify=False, timeout=10)
-        response.raise_for_status()
-        result = response.json()
-
-        # ===============================
-        # HASIL PREDIKSI
-        # ===============================
-        st.subheader("Hasil Prediksi")
-        st.write("Kelas:", result["class"])
-        st.write("Confidence:", round(result["confidence"] * 100, 2), "%")
-
-    except requests.exceptions.RequestException as e:
-        st.error(f"Gagal konek ke API: {e}")
+    # ===============================
+    # HASIL PREDIKSI
+    # ===============================
+    st.subheader("Hasil Prediksi")
+    st.write("Kelas:", class_names[predicted_index])
+    st.write("Confidence:", round(confidence * 100, 2), "%")
 
 # ===============================
 # TABEL PERBANDINGAN MODEL
